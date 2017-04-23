@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <div class="wrapper">
+            <div class="subtitle">
+                <input class="subtitle__name" id="subtitle-name" />
+                <textarea class="subtitle__content" placeholder="Alege un fișier sau folosește metoda copy/paste aici..." id="subtitle-content"></textarea>
+            </div>
+            <ul class="toolbar">
+                <li>
+                    <input type="file" class="button" id="file-upload">
+                </li>
+                <li>
+                    <button class="button" data-action="upload"><i class="fa fa-upload"></i>Alege fișier</button>
+                </li>
+                <li>
+                    <button class="button" data-action="fix"><i class="fa fa-check"></i>Corectează</button>
+                </li>
+                <li>
+                    <button class="button" data-action="copy"><i class="fa fa-clipboard"></i>Copiază</button>
+                </li>
+                <li>
+                    <button class="button" data-action="delete"><i class="fa fa-trash"></i>Șterge</button>
+                </li>
+                <li><a class="button" data-action="save"><i class="fa fa-download"></i>Salvează</a></li>
+            </ul>
+            <div class="help">
+                Aplicația înlocuiește caracterele º, ª, þ, Þ, ã, ş, Ş, ţ, Ţ (cu sedilă) din subtitrările în limba română cu caracterele ă, ș, Ș, ț, Ț (cu virgulă) și salvează subtitrarea din codarea cu standardul ISO 8859-2 în standardul UTF-8.
+                <br/>
+                <br/>Alege un fișier care va fi corectat automat după ce se încarcă sau poți folosi varianta copy/paste si apeși pe Corectează. Poți salva apasând Salvează.
+            </div>
+            <div class="help">
+                This app replaces characters º, ª, þ, Þ, ã, ş, Ş, ţ, Ţ (with cedilla) from romanian subtitles with characters ă, ș, Ș, ț, Ț (with comma) and it changes the file encoding from ISO 8859-2 standard in UTF-8.
+                <br/>
+                <br/>Choose a file that will be automatically fixed after it will upload or you can use copy/paste and then press Corectează. You can save the file by pressing Salvează.
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
