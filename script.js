@@ -26,7 +26,7 @@
         }
 
         function fixSubtitle(text) {
-            var charMap = { "º": "ș", "ª": "Ș", "ş": "ș", "Ş": "Ș", "ţ": "ț", "Ţ": "Ț", "þ": "ț", "Þ": "Ț", "ã": "ă" };
+            var charMap = { "º": "ș", "ª": "Ș", "ş": "ș", "Ş": "Ș", "ţ": "ț", "Ţ": "Ț", "þ": "ț", "Þ": "Ț", "ã": "ă", "Ã": "Ă" };
             var charList = text ? text.split("") : inputArea.value.split("");
             for (var index = 0; index < charList.length; index++) {
                 var char = charList[index];
