@@ -1,75 +1,80 @@
-(function() {
+(function () {
+    const init = () => {
+        const inputArea = document.getElementById('subtitle-content');
+        const titleInput = document.getElementById('subtitle-name');
+        const buttonList = document.querySelectorAll('.button');
+        const uploadButton = document.getElementById('file-upload');
 
-    var init = function() {
+        const charMap = {
+            "º": "ș", "ª": "Ș", "ş": "ș", "Ş": "Ș",
+            "ţ": "ț", "Ţ": "Ț", "þ": "ț", "Þ": "Ț",
+            "ã": "ă", "Ã": "Ă"
+        };
 
-        var inputArea = document.getElementById('subtitle-content'),
-            titleInput = document.getElementById('subtitle-name'),
-            buttonList = document.getElementsByClassName('button'),
-            uploadButton = document.getElementById('file-upload'),
-            originalInput = "";
-
-        function copyToClipboard() {
-            if (inputArea.value !== " ") {
-                inputArea.select();
-                document.execCommand('copy');
-                if (window.getSelection) {
-                    if (window.getSelection().empty) {
-                        window.getSelection().empty();
-                    } else if (window.getSelection().removeAllRanges) {
-                        window.getSelection().removeAllRanges();
-                    }
-                } else if (document.selection) {
-                    document.selection.empty();
-                }
+        const copyToClipboard = () => {
+            if (inputArea.value.trim()) {
+                navigator.clipboard.writeText(inputArea.value)
+                    .then(() => {
+                        console.log('Text copied to clipboard successfully.');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy text to clipboard:', err);
+                    });
             }
-            return;
-        }
+        };
 
-        function fixSubtitle(text) {
-            var charMap = { "º": "ș", "ª": "Ș", "ş": "ș", "Ş": "Ș", "ţ": "ț", "Ţ": "Ț", "þ": "ț", "Þ": "Ț", "ã": "ă", "Ã": "Ă" };
-            var charList = text ? text.split("") : inputArea.value.split("");
-            for (var index = 0; index < charList.length; index++) {
-                var char = charList[index];
-                if (char in charMap) {
-                    charList[index] = charMap[char];
-                }
-            }
-            inputArea.value = charList.join("");
-            return charList.join("");
-        }
+        const fixSubtitle = (text = inputArea.value) => {
+            return text.replace(/[ºªşŞţŢþÞãÃ]/g, match => charMap[match] || match);
+        };
 
-        function uploadFile() {
-            if ('files' in uploadButton) {
-                var reader = new FileReader();
-                reader.onload = (function() {
-                    inputArea.value = fixSubtitle(reader.result);
-                    var name = uploadButton.files[0].name,
-                        nameArr = name.split("");
-                    titleInput.value = nameArr.splice(0, nameArr.length - name.split("").reverse().indexOf(".") - 1).join("");
-                });
-                reader.readAsText(uploadButton.files[0], 'iso-8859-2');
-            }
-        }
+        const uploadFiles = () => {
+            const files = uploadButton.files;
+            const fileList = [...files];
+            const totalFiles = fileList.length;
 
-        function saveFile() {
-            var fileBlob = new Blob([inputArea.value], { type: 'text/plain' });
-            var saveButton = document.querySelectorAll('[data-action=save]')[0];
-            saveButton.setAttribute("href", URL.createObjectURL(fileBlob));
-            if (titleInput.value) {
-                saveButton.setAttribute("download", titleInput.value + ".srt");
+            if (totalFiles === 0) return;
+
+            fileList.forEach(file => processFile(file, totalFiles));
+        };
+
+        const processFile = (file, totalFiles) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const correctedText = fixSubtitle(reader.result);
+                handleFileRead(file, correctedText, totalFiles);
+            };
+            reader.readAsText(file, 'iso-8859-2');
+        };
+
+        const handleFileRead = (file, correctedText, totalFiles) => {
+            const nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+            if (totalFiles > 1) {
+                titleInput.value = "Toate fișierele au fost salvate";
+                inputArea.value = "";
             } else {
-                saveButton.setAttribute("download", "subtitle.srt");
+                titleInput.value = nameWithoutExt;
+                inputArea.value = correctedText;
             }
-        }
+            saveCorrectedFile(correctedText, nameWithoutExt);
+        };
 
-        function uploadClick() {
-            uploadButton.click();
-        }
+        const saveCorrectedFile = (content, fileName) => {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${fileName}.srt`;
+            link.click();
+        };
 
-        uploadButton.addEventListener("change", uploadFile);
+        const saveToFile = () => {
+            const correctedText = fixSubtitle();
+            const nameWithoutExt = titleInput.value || 'subtitle';
+            saveCorrectedFile(correctedText, nameWithoutExt);
+        };
 
-        var changeCase = function(event) {
-            switch (event.target.dataset.action) {
+        const handleButtonClick = event => {
+            const action = event.target.dataset.action;
+            switch (action) {
                 case "copy":
                     copyToClipboard();
                     break;
@@ -78,28 +83,20 @@
                     titleInput.value = "";
                     break;
                 case "fix":
-                    fixSubtitle();
+                    inputArea.value = fixSubtitle();
                     break;
                 case "save":
-                    saveFile();
+                    saveToFile();
                     break;
                 case "upload":
-                    uploadClick();
-                    break;
-                default:
+                    uploadButton.click();
                     break;
             }
-            return;
         };
 
-        for (var i = 0; i < buttonList.length; i++) {
-            buttonList[i].addEventListener("click", changeCase);
-        }
-
+        uploadButton.addEventListener("change", uploadFiles);
+        buttonList.forEach(button => button.addEventListener("click", handleButtonClick));
     };
 
-    document.addEventListener("DOMContentLoaded", function() {
-        init();
-    });
-
+    document.addEventListener("DOMContentLoaded", init);
 })();

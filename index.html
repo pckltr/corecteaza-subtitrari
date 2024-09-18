@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Corectează subtitrări online</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+    <link rel="favicon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
@@ -15,14 +16,14 @@
         <div class="wrapper">
             <div class="subtitle">
                 <input class="subtitle__name" id="subtitle-name" placeholder="Corectează subtitrări online" />
-                <textarea class="subtitle__content" placeholder="Alege un fișier sau folosește metoda copy/paste aici..." id="subtitle-content"></textarea>
+                <textarea class="subtitle__content" placeholder="Alege un fișier sau mai multe sau folosește metoda copy/paste aici..." id="subtitle-content"></textarea>
             </div>
             <ul class="toolbar">
                 <li>
-                    <input type="file" class="button" id="file-upload">
+                    <input type="file" class="button" id="file-upload" multiple>
                 </li>
                 <li>
-                    <button class="button" data-action="upload"><i class="fa-solid fa-upload"></i>Alege fișier</button>
+                    <button class="button" data-action="upload"><i class="fa-solid fa-upload"></i>Alege fișier/fișiere</button>
                 </li>
                 <li>
                     <button class="button" data-action="fix"><i class="fa-solid fa-check"></i>Corectează</button>
@@ -40,13 +41,20 @@
             <div class="help">
                 Această aplicație înlocuiește caracterele º, ª, þ, Þ, ã, Ã, ş, Ş, ţ, Ţ (cu sedilă) din subtitrările în limba română cu caracterele ă, Ă, ș, Ș, ț, Ț (cu virgulă) și schimbă codarea fișierului din standardul ISO 8859-2 în UTF-8.
                 <br/>
-                <br/>Alege un fișier care va fi corectat automat după ce este încărcat sau poți folosi varianta copy/paste și apoi apăsa pe „Corectează”. Poți salva fișierul apăsând pe „Salvează”.
+                <br/>Alege un fișier care va fi corectat automat și salvat.
+                <br/>Alege mai multe fișiere care vor fi corectate automat și apoi salvate.
+                <br/>Poți folosi varianta copy/paste și apoi apăsa pe „Corectează”. Poți salva fișierul apăsând pe „Salvează”.
             </div>
             <div class="help">
                 This app replaces the characters º, ª, þ, Þ, ã, Ã, ş, Ş, ţ, Ţ (with cedilla) from Romanian subtitles with the characters ă, Ă, ș, Ș, ț, Ț (with comma) and changes the file encoding from ISO 8859-2 standard to UTF-8.
                 <br/>
-                <br/>Choose a file that will be automatically fixed after uploading, or you can use the copy/paste and then press "Corectează". You can save the file by pressing "Salvează".
+                <br/>Choose a file that will be automatically fixed and then saved.
+                <br/>Choose multiple files that will be automatically fixed and then saved.
+                <br/>You can use the copy/paste and then press "Corectează". You can save the file by pressing "Salvează".
+                <br/>
+                <br/>Source code: <a href="https://github.com/pckltr/corecteaza-subtitrari" target="_blank">https://github.com/pckltr/corecteaza-subtitrari</a>
             </div>
+            
         </div>
     </div>
 </body>
